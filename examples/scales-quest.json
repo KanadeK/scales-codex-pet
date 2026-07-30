@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "name": "Scales follows one Codex task from rest to review",
+  "background": "#17212b",
+  "events": [
+    {"state": "idle", "loops": 1, "frame_ms": 150},
+    {"state": "wake", "loops": 1, "frame_ms": 130},
+    {"state": "running", "loops": 2, "frame_ms": 110},
+    {"direction": "090", "hold_ms": 500},
+    {"state": "needs-input", "loops": 1, "frame_ms": 150},
+    {"state": "running", "loops": 1, "frame_ms": 110},
+    {"direction": "270", "hold_ms": 500},
+    {"state": "ready", "loops": 1, "frame_ms": 120},
+    {"state": "review", "loops": 1, "frame_ms": 150}
+  ]
+}

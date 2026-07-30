@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "character": "Scales, the baby dragon from Sintel (2010)",
+  "attribution": "Concept artwork by David Revoy / Blender Foundation; film content © copyright Blender Foundation | www.sintel.org.",
+  "license": {
+    "id": "CC-BY-3.0",
+    "name": "Creative Commons Attribution 3.0 Unported",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+  },
+  "sources": [
+    {
+      "path": "artwork/references/scales-baby-concept.png",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Scale-baby.png",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Scale-baby.png",
+      "author": "David Revoy / Blender Foundation",
+      "license": "CC-BY-3.0",
+      "sha256": "c2566f43c474beb3fcf1bdb07dea07b99c19e04e1123057bedc514379a72cc94",
+      "upstream_dimensions": [1091, 1217],
+      "changes": "No pixel changes; renamed locally and used as an identity reference."
+    },
+    {
+      "path": "artwork/references/scales-scene-concept.png",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Scale-baby_scene-preview.png",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Scale-baby_scene-preview.png",
+      "author": "David Revoy / Blender Foundation",
+      "license": "CC-BY-3.0",
+      "sha256": "447d28660014fbf8926ef6df97a61d0e7ec29b3251fa81df6c7b6a9a450dd7cb",
+      "upstream_dimensions": [2350, 1000],
+      "changes": "No pixel changes; renamed locally and used for face, palette, and personality grounding."
+    },
+    {
+      "path": "artwork/references/scales-wing-concept.png",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Scale-baby-wings.png",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Scale-baby-wings.png",
+      "author": "David Revoy / Blender Foundation",
+      "license": "CC-BY-3.0",
+      "sha256": "1e8e3fab4526d24266a4ca4cf2c83b42bae4c35987e1d9793d15a243a60da21d",
+      "upstream_dimensions": [2350, 1000],
+      "changes": "No pixel changes; renamed locally and used for wing, body, and tail construction."
+    },
+    {
+      "path": "artwork/references/sintel-scales-film-still.jpg",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Sintel-screenshot-2.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Sintel-screenshot-2.jpg",
+      "author": "© copyright Blender Foundation | www.sintel.org",
+      "license": "CC-BY-3.0",
+      "sha256": "718657bc276bd702cfa2a01486d17f10dedc21cecc152618bde051feba4c8772",
+      "upstream_dimensions": [1280, 544],
+      "changes": "No pixel changes; renamed locally and used only as a warm scale-color reference."
+    }
+  ]
+}

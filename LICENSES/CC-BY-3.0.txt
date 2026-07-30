@@ -1,0 +1,22 @@
+Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+
+Canonical license deed:
+https://creativecommons.org/licenses/by/3.0/
+
+Canonical legal code:
+https://creativecommons.org/licenses/by/3.0/legalcode
+
+You are free to share and adapt the licensed material for any purpose,
+including commercially, under the attribution and other conditions stated in
+the canonical legal code. This notice is a convenient identifier and summary;
+the canonical legal code controls.
+
+Required attribution for visual assets in this repository:
+
+Concept artwork by David Revoy / Blender Foundation; film content
+© copyright Blender Foundation | www.sintel.org.
+
+Derivative visual work: Scales Codex Pet contributors.
+Changes include simplified pet-scale rendering, new task-state poses,
+transparent extraction, sixteen gaze directions, atlas registration, and
+preview composition.

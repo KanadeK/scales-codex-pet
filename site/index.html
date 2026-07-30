@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Scales, the baby dragon from Sintel, as a validated dual-target Codex pet."
+    >
+    <meta name="color-scheme" content="light dark">
+    <title>Scales Codex Pet</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to the pet lab</a>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Scales Codex Pet home">Scales</a>
+      <nav aria-label="Primary navigation">
+        <a href="#lab">Pet lab</a>
+        <a href="#contract">Contract</a>
+        <a href="#provenance">Provenance</a>
+        <a data-repository-link href="https://github.com/KanadeK/scales-codex-pet">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">An open character, properly attributed</p>
+          <h1>A tiny dragon for long coding sessions.</h1>
+          <p class="hero-summary">
+            Scales from Blender Foundation's <em>Sintel</em>, rebuilt as one validated pet
+            for Codex desktop and ChatGPT web.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#lab">Try the real atlas</a>
+            <a class="button secondary" data-download-link href="pet/scales-web-upload.webp">
+              Download web pet
+            </a>
+          </div>
+        </div>
+        <figure class="hero-image">
+          <img
+            src="assets/sintel-scales-film-still.jpg"
+            alt="Scales, a small dragon, facing Sintel in the open movie"
+            width="1280"
+            height="544"
+          >
+          <figcaption>
+            Film still from <em>Sintel</em>. Blender Foundation, CC BY 3.0.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="lab-section" id="lab">
+        <div class="section-heading">
+          <p class="eyebrow">Atlas-driven preview</p>
+          <h2>Every control reads the shipped spritesheet.</h2>
+          <p>
+            This is not a mockup. The canvas crops the same 192 by 208 cells used by
+            Codex, then plays the repository's acceptance scenario.
+          </p>
+        </div>
+        <div class="lab-layout">
+          <div class="pet-stage" aria-label="Animated Scales pet preview">
+            <div class="stage-glow" aria-hidden="true"></div>
+            <canvas id="pet-canvas" width="384" height="416"></canvas>
+            <p class="stage-status" id="stage-status" role="status" aria-live="polite">
+              Loading the verified atlas...
+            </p>
+          </div>
+          <form class="pet-controls" id="pet-controls">
+            <label for="state-select">Task state</label>
+            <select id="state-select" name="state">
+              <option value="idle">Idle</option>
+              <option value="waving">Wake</option>
+              <option value="running-right">Move right</option>
+              <option value="running-left">Move left</option>
+              <option value="jumping">Ready</option>
+              <option value="failed">Blocked</option>
+              <option value="waiting">Needs input</option>
+              <option value="running">Running</option>
+              <option value="review">Review</option>
+            </select>
+
+            <label for="direction-select">Look direction</label>
+            <select id="direction-select" name="direction">
+              <option value="">Follow task state</option>
+              <option value="0">000 degrees</option>
+              <option value="4">090 degrees</option>
+              <option value="8">180 degrees</option>
+              <option value="12">270 degrees</option>
+            </select>
+
+            <button class="button primary" type="button" id="play-scenario">
+              Play task scenario
+            </button>
+            <dl class="cell-readout">
+              <div><dt>Cell</dt><dd id="cell-readout">0, 0</dd></div>
+              <div><dt>Frame</dt><dd id="frame-readout">1 of 6</dd></div>
+              <div><dt>Source</dt><dd>1536 by 2288 WebP</dd></div>
+            </dl>
+          </form>
+        </div>
+      </section>
+
+      <section class="contract-section" id="contract">
+        <div class="section-heading">
+          <p class="eyebrow">One source, two targets</p>
+          <h2>The desktop atlas stays authoritative.</h2>
+          <p>
+            A deterministic compiler crops rows 0 through 8 for web upload and proves
+            that every output pixel still matches.
+          </p>
+        </div>
+        <div class="contract-map" aria-label="Sprite target comparison">
+          <article>
+            <h3>Desktop and CLI</h3>
+            <strong>1536 by 2288</strong>
+            <p>Eleven rows, 73 required cells, sixteen look directions, manifest v2.</p>
+          </article>
+          <div class="compiler-mark" aria-hidden="true">crop + verify</div>
+          <article>
+            <h3>ChatGPT web</h3>
+            <strong>1536 by 1872</strong>
+            <p>Nine task-state rows, transparent WebP, under the 20 MiB upload limit.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="proof-section" id="provenance">
+        <div class="proof-copy">
+          <p class="eyebrow">Traceable visual lineage</p>
+          <h2>Reference bytes, licenses, and changes are pinned.</h2>
+          <p>
+            Four canonical Scales references are stored with source pages, authors,
+            CC BY 3.0 terms, local SHA-256 values, and derivative change notes.
+          </p>
+          <a class="text-link" data-provenance-link href="artwork/references/sources.json">
+            Inspect the provenance manifest
+          </a>
+        </div>
+        <dl class="proof-facts">
+          <div><dt>Character</dt><dd>Scales from <em>Sintel</em></dd></div>
+          <div><dt>Visual license</dt><dd>CC BY 3.0</dd></div>
+          <div><dt>Code license</dt><dd>MIT</dd></div>
+          <div><dt>Offline verification</dt><dd>SHA-256 for every reference</dd></div>
+        </dl>
+      </section>
+
+      <section class="install-section" id="install">
+        <div>
+          <p class="eyebrow">Recoverable installation</p>
+          <h2>Install, diagnose, or roll back without losing the previous pet.</h2>
+        </div>
+        <pre><code>python -m pip install .
+scales-pet validate pet --target desktop --strict
+scales-pet install --source pet
+scales-pet doctor --source pet --json</code></pre>
+        <a class="button secondary" data-repository-link href="https://github.com/KanadeK/scales-codex-pet">
+          Read the full repair guide
+        </a>
+      </section>
+    </main>
+
+    <footer>
+      <p>Independent CC BY 3.0 adaptation. Not endorsed by Blender Foundation or OpenAI.</p>
+      <a href="https://durian.blender.org/sharing/">Sintel sharing terms</a>
+    </footer>
+  </body>
+</html>

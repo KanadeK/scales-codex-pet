@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[dev]"
+      - name: Check tag and package version
+        run: |
+          test "${GITHUB_REF_NAME}" = "v0.1.0"
+          python -c "import scales_pet; assert scales_pet.__version__ == '0.1.0'"
+      - run: python -m ruff check .
+      - run: python -m mypy src
+      - run: python -m coverage run -m unittest discover -s tests -t . -v
+      - run: python -m coverage report
+      - run: python scripts/release_check.py --strict --json
+      - run: python -m build
+      - name: Build release assets
+        run: |
+          python -m scales_pet package \
+            --repo-root . \
+            --version 0.1.0 \
+            --output dist/scales-codex-pet-v0.1.0.zip \
+            --manifest dist/release-manifest.json \
+            --checksums dist/SHA256SUMS.txt \
+            --json
+          python -m scales_pet replay examples/scales-quest.json \
+            --output dist/scales-quest.gif \
+            --json
+          cp web-pet/scales-web-upload.webp dist/scales-web-upload.webp
+          cp artwork/qa/scales-overview.png dist/scales-overview.png
+          (
+            cd dist
+            sha256sum \
+              scales-codex-pet-v0.1.0.zip \
+              release-manifest.json \
+              *.whl \
+              *.tar.gz \
+              *.webp \
+              *.gif \
+              *.png > SHA256SUMS.txt
+            sha256sum -c SHA256SUMS.txt
+          )
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: dist/
+          if-no-files-found: error
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            dist/scales-codex-pet-v0.1.0.zip \
+            dist/scales-web-upload.webp \
+            dist/scales-quest.gif \
+            dist/scales-overview.png \
+            dist/release-manifest.json \
+            dist/SHA256SUMS.txt \
+            dist/*.whl \
+            dist/*.tar.gz \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "Scales Codex Pet v0.1.0" \
+            --notes-file .github/RELEASE_NOTES.md \
+            --verify-tag

@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m unittest discover -s tests -t . -v
+      - run: python -m scales_pet validate pet --target desktop --strict --json
+      - run: python -m scales_pet validate web-pet/scales-web-upload.webp --target web --strict --json
+      - run: python -m scales_pet verify-provenance artwork/references/sources.json --json
+
+  quality:
+    name: Static checks and release gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m ruff check .
+      - run: python -m mypy src
+      - run: python -m coverage run -m unittest discover -s tests -t . -v
+      - run: python -m coverage report
+      - run: python scripts/release_check.py --json
+      - run: python -m build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-packages
+          path: dist/
+          if-no-files-found: error
+
+  shell-installers:
+    name: Installer syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check POSIX installer
+        run: sh -n scripts/install.sh
+      - name: Check PowerShell installer
+        shell: pwsh
+        run: |
+          $errors = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path scripts/install.ps1),
+            [ref]$null,
+            [ref]$errors
+          )
+          if ($errors.Count -ne 0) {
+            $errors | Format-List
+            exit 1
+          }
