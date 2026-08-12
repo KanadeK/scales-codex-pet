@@ -1,0 +1,28 @@
+{
+  "visual_qa": "pass",
+  "rows": {
+    "0 idle": "pass",
+    "1 running-right": "pass",
+    "2 running-left": "pass",
+    "3 waving": "pass",
+    "4 jumping": "pass",
+    "5 failed": "pass",
+    "6 waiting": "pass",
+    "7 running": "pass",
+    "8 review": "pass",
+    "9 look-000-to-157.5": "pass",
+    "10 look-180-to-337.5": "pass"
+  },
+  "directions": "pass",
+  "cardinal_gates": "pass",
+  "continuity": "pass",
+  "chroma": "pass",
+  "identity": "pass",
+  "warnings": [
+    "022.5 right component is visually subtle and blind-horizontal ambiguous; the labeled ordered loop supports up-right.",
+    "157.5 to 180 has recorded diff, registration, and area outliers, but normal-size labeled poses show no visible reversal, anatomy break, or conspicuous pop.",
+    "337.5 to 000 is a metric outlier, but the loop closes coherently with no visible snap."
+  ],
+  "repair_notes": [],
+  "summary": "All standard rows have complete, readable state motion with consistent Scales identity; all 16 looks retain coherent silhouette and anatomy. Blind validation is ok:true, both cardinal pairs pass, deterministic review, extended validation, and despill pass, and no major visual defect is visible."
+}

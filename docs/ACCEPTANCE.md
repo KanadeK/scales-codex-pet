@@ -25,9 +25,9 @@ Expected outcomes:
 
 - every command exits `0`;
 - release check reports `"ok": true`;
-- desktop validation reports 73 populated required cells and 15 empty unused
+- desktop validation reports 74 populated required cells and 14 empty unused
   cells;
-- web validation reports 57 populated required cells and 15 empty unused cells;
+- web validation reports 57 populated required cells and 14 empty unused cells;
 - cross-target pixel comparison is true;
 - scenario replay produces more than zero real frames;
 - two deliberately separate package builds have the same SHA-256;
@@ -49,7 +49,8 @@ git log --format=fuller
 Expected outcomes:
 
 - the worktree is clean;
-- `origin` ends with `KanadeK/scales-codex-pet.git`;
+- `origin` resolves to `github.com/KanadeK/scales-codex-pet` in HTTPS or SSH
+  form, with or without the optional `.git` suffix;
 - author and committer identities are populated;
 - history contains no additional-author trailers;
 - `git shortlog` lists only intended contributors.

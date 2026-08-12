@@ -23,7 +23,11 @@ from scales_pet.build import (
 from scales_pet.provenance import verify_provenance
 from scales_pet.scenario import render_scenario
 from scales_pet.validation import validate_source
-from scripts.build_site import build_site
+
+try:
+    from scripts.build_site import build_site
+except ModuleNotFoundError:
+    from build_site import build_site
 
 
 @dataclass(frozen=True, slots=True)
@@ -192,13 +196,27 @@ def deterministic_package_report(root: Path, temporary_root: Path) -> dict[str, 
 
 
 def git_report(root: Path, strict: bool) -> dict[str, Any]:
-    status = run_process(["git", "status", "--porcelain"], cwd=root)
-    shortlog = run_process(["git", "shortlog", "-sne", "HEAD"], cwd=root)
+    git_env = os.environ.copy()
+    try:
+        config_index = int(git_env.get("GIT_CONFIG_COUNT", "0"))
+    except ValueError:
+        config_index = 0
+    git_env["GIT_CONFIG_COUNT"] = str(config_index + 1)
+    git_env[f"GIT_CONFIG_KEY_{config_index}"] = "safe.directory"
+    git_env[f"GIT_CONFIG_VALUE_{config_index}"] = str(root.resolve())
+
+    status = run_process(["git", "status", "--porcelain"], cwd=root, env=git_env)
+    shortlog = run_process(["git", "shortlog", "-sne", "HEAD"], cwd=root, env=git_env)
     log = run_process(
         ["git", "log", "--format=%H%x09%an%x09%ae%x09%cn%x09%ce%x09%B"],
         cwd=root,
+        env=git_env,
     )
-    remote = run_process(["git", "remote", "get-url", "origin"], cwd=root)
+    remote = run_process(
+        ["git", "remote", "get-url", "origin"],
+        cwd=root,
+        env=git_env,
+    )
     log_text = str(log["stdout"])
     has_coauthor = ("co-" + "authored-by:") in log_text.lower()
     identity_missing = bool(
@@ -212,8 +230,15 @@ def git_report(root: Path, strict: bool) -> dict[str, Any]:
     )
     clean = status["ok"] and not str(status["stdout"]).strip()
     history_ok = log["ok"] and shortlog["ok"] and not has_coauthor and not identity_missing
-    remote_ok = remote["ok"] and str(remote["stdout"]).strip().endswith(
-        "KanadeK/scales-codex-pet.git"
+    remote_url = str(remote["stdout"]).strip().rstrip("/")
+    normalized_remote = (
+        remote_url[:-4] if remote_url.lower().endswith(".git") else remote_url
+    )
+    canonical_remote = normalized_remote.lower().replace(
+        "git@github.com:", "https://github.com/"
+    )
+    remote_ok = remote["ok"] and canonical_remote.endswith(
+        "github.com/kanadek/scales-codex-pet"
     )
     return {
         "ok": history_ok and (not strict or (clean and remote_ok)),

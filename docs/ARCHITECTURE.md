@@ -24,7 +24,7 @@ Desktop v2 is `1536x2288` with 11 rows:
 
 | Row | State | Required frames |
 | ---: | --- | ---: |
-| 0 | idle | 6 |
+| 0 | idle + neutral look fallback | 6 + column 6 neutral |
 | 1 | running-right | 8 |
 | 2 | running-left | 8 |
 | 3 | waving | 4 |
@@ -37,11 +37,13 @@ Desktop v2 is `1536x2288` with 11 rows:
 | 10 | look 180 through 337.5 | 8 |
 
 Web v1 is `1536x1872` and contains rows 0 through 8. It is never edited
-independently.
+independently. The desktop neutral look fallback at row 0, column 6 is retained
+as a compatible optional cell so the web file remains an exact desktop crop.
 
 ## Release invariants
 
-1. Every required cell has visible alpha.
+1. Every required cell has visible alpha, including the desktop v2 neutral
+   look fallback at row 0, column 6.
 2. Every unused cell is transparent black.
 3. No required sprite touches a cell edge.
 4. Fully transparent pixels have zero RGB.

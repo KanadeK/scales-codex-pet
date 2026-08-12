@@ -23,6 +23,7 @@ from .model import (
 )
 
 Severity = Literal["error", "warning"]
+CHROMA_ALPHA_MINIMUM = 16
 
 
 @dataclass(frozen=True, slots=True)
@@ -169,7 +170,7 @@ def _count_chroma(image: Image.Image, key: tuple[int, int, int], tolerance: int 
     return sum(
         1
         for red, green, blue, alpha in _rgba_pixels(image)
-        if alpha > 8
+        if alpha > CHROMA_ALPHA_MINIMUM
         and (red - key_red) ** 2 + (green - key_green) ** 2 + (blue - key_blue) ** 2
         <= limit
     )

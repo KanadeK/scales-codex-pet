@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "spriteVersionNumber": 2,
+  "spritesheet": "pet/spritesheet.webp",
+  "validation": "artwork/qa/validation-extended.json",
+  "chroma_despill": "artwork/qa/chroma-despill-extended.json",
+  "contact_sheet": "artwork/qa/contact-sheet.png",
+  "direction_sheet": "artwork/qa/look-directions.png",
+  "direction_semantics": "artwork/qa/direction-semantics.json",
+  "blind_direction_validation": "artwork/qa/direction-blind-validation.json",
+  "blind_review_resolution": null,
+  "continuity": "artwork/qa/look-continuity.json",
+  "review": "artwork/qa/review.json",
+  "final_visual_qa": "artwork/qa/final-visual-qa.json",
+  "package": "pet"
+}

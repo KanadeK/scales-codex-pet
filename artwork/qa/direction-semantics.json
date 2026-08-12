@@ -1,0 +1,161 @@
+{
+  "ok": true,
+  "reviewed_by": [
+    "independent row-9 labeled visual QA worker",
+    "independent row-10 labeled visual QA worker",
+    "three fresh isolated final blind QA workers"
+  ],
+  "directions": [
+    {
+      "direction": "000",
+      "verdict": "pass",
+      "expected": "up",
+      "observed": "Centered front-facing head with raised snout and gaze.",
+      "horizontal_evidence": "No lateral component is required or asserted.",
+      "vertical_evidence": "Pupils, snout, and extended neck read unmistakably upward.",
+      "reason": "The up cardinal and vertical blind hard gate pass."
+    },
+    {
+      "direction": "022.5",
+      "verdict": "warning",
+      "expected": "up-right",
+      "observed": "Predominantly up with a subtle first screen-right turn.",
+      "horizontal_evidence": "The labeled normal-size sheet shows the snout and face plane beginning to shift screen-right, but all three blind reviewers called the horizontal component ambiguous.",
+      "vertical_evidence": "All three blind reviewers classified the vertical axis as up.",
+      "reason": "Accepted intermediate warning: no wrong quadrant or reversal; 045 and 067.5 continue monotonically toward the right cardinal."
+    },
+    {
+      "direction": "045",
+      "verdict": "pass",
+      "expected": "up-right",
+      "observed": "Raised gaze with a clear screen-right head and snout turn.",
+      "horizontal_evidence": "Final blind majority and labeled review both read screen-right.",
+      "vertical_evidence": "Final blind majority and labeled review both read up.",
+      "reason": "Both diagonal axes are visible."
+    },
+    {
+      "direction": "067.5",
+      "verdict": "pass",
+      "expected": "up-right",
+      "observed": "Strong screen-right profile retaining a slight upward component.",
+      "horizontal_evidence": "Final blind majority reads screen-right.",
+      "vertical_evidence": "Final blind majority reads up.",
+      "reason": "Forms the expected step immediately before 090."
+    },
+    {
+      "direction": "090",
+      "verdict": "pass",
+      "expected": "right",
+      "observed": "Unmistakable viewer-right profile with snout projecting toward the right image edge.",
+      "horizontal_evidence": "All three final blind reviewers classify the cardinal as screen-right.",
+      "vertical_evidence": "No vertical component is required.",
+      "reason": "The horizontal blind hard gate passes."
+    },
+    {
+      "direction": "112.5",
+      "verdict": "pass",
+      "expected": "down-right",
+      "observed": "Screen-right profile with lowered snout and gaze.",
+      "horizontal_evidence": "Final blind majority reads screen-right.",
+      "vertical_evidence": "Final blind majority reads down.",
+      "reason": "Both diagonal axes are visible."
+    },
+    {
+      "direction": "135",
+      "verdict": "pass",
+      "expected": "down-right",
+      "observed": "Clear rightward yaw with a deeper downward pitch.",
+      "horizontal_evidence": "Final blind majority reads screen-right.",
+      "vertical_evidence": "Final blind majority reads down.",
+      "reason": "The clockwise lower-right progression remains monotonic."
+    },
+    {
+      "direction": "157.5",
+      "verdict": "warning",
+      "expected": "down-right",
+      "observed": "Near-down pose retaining a visible screen-right snout and face plane.",
+      "horizontal_evidence": "Final blind majority reads screen-right.",
+      "vertical_evidence": "Final blind majority reads down.",
+      "reason": "Axes pass, but continuity metrics flag the transition to 180 for visual review; labeled normal-size review found no reversal, clipping, or broken anatomy."
+    },
+    {
+      "direction": "180",
+      "verdict": "pass",
+      "expected": "down",
+      "observed": "Centered pose with lowered pupils, snout, and compressed neck.",
+      "horizontal_evidence": "No lateral component is required or asserted.",
+      "vertical_evidence": "All three final blind reviewers classify the cardinal as down.",
+      "reason": "The vertical blind hard gate passes."
+    },
+    {
+      "direction": "202.5",
+      "verdict": "pass",
+      "expected": "down-left",
+      "observed": "Low gaze with the snout and nearer face moving viewer-left.",
+      "horizontal_evidence": "Final blind majority reads screen-left.",
+      "vertical_evidence": "Final blind majority reads down.",
+      "reason": "Both diagonal axes are visible."
+    },
+    {
+      "direction": "225",
+      "verdict": "pass",
+      "expected": "down-left",
+      "observed": "Clearer left yaw with a dipped head and low pupil.",
+      "horizontal_evidence": "Final blind majority reads screen-left.",
+      "vertical_evidence": "Final blind majority reads down.",
+      "reason": "Both diagonal axes are visible."
+    },
+    {
+      "direction": "247.5",
+      "verdict": "pass",
+      "expected": "down-left",
+      "observed": "Strong viewer-left profile retaining a downward lean.",
+      "horizontal_evidence": "Final blind majority reads screen-left.",
+      "vertical_evidence": "Final blind majority reads down.",
+      "reason": "Forms the expected step immediately before 270."
+    },
+    {
+      "direction": "270",
+      "verdict": "pass",
+      "expected": "left",
+      "observed": "Unmistakable viewer-left profile with lateral gaze.",
+      "horizontal_evidence": "All three final blind reviewers classify the cardinal as screen-left.",
+      "vertical_evidence": "No vertical component is required.",
+      "reason": "The horizontal blind hard gate passes."
+    },
+    {
+      "direction": "292.5",
+      "verdict": "pass",
+      "expected": "up-left",
+      "observed": "Leftward nose and head turn with raised pupil and lengthened neck.",
+      "horizontal_evidence": "Final blind majority reads screen-left.",
+      "vertical_evidence": "Final blind majority reads up.",
+      "reason": "Both diagonal axes are visible."
+    },
+    {
+      "direction": "315",
+      "verdict": "pass",
+      "expected": "up-left",
+      "observed": "Higher gaze with coherent viewer-left yaw.",
+      "horizontal_evidence": "Final blind majority reads screen-left.",
+      "vertical_evidence": "Final blind majority reads up.",
+      "reason": "Both diagonal axes are visible."
+    },
+    {
+      "direction": "337.5",
+      "verdict": "warning",
+      "expected": "up-left",
+      "observed": "Near-up pose retaining a visible viewer-left cue.",
+      "horizontal_evidence": "Final blind majority reads screen-left.",
+      "vertical_evidence": "Final blind majority reads up.",
+      "reason": "Axes pass, but the transition to 000 is a metric outlier; labeled normal-size review found a coherent endpoint without reversal or clipping."
+    }
+  ],
+  "summary": {
+    "failures": 0,
+    "warnings": 3,
+    "cardinal_hard_gates": "pass",
+    "blind_validation": "pass",
+    "ordered_loop": "pass with reviewed intermediate and metric warnings"
+  }
+}

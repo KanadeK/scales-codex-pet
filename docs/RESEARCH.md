@@ -1,6 +1,6 @@
 # Research, novelty, and selection record
 
-Snapshot date: **2026-07-30 (Asia/Shanghai)**. Search counts are point-in-time
+Snapshot date: **2026-08-12 (America/Los_Angeles)**. Search counts are point-in-time
 evidence and may change after this repository is published.
 
 ## Decision
@@ -37,7 +37,7 @@ dual-target Codex pet compiler and lifecycle replay tool.
 
 ## GitHub duplicate queries
 
-The anonymous GitHub repository Search API returned `total_count: 0` for each
+Authenticated GitHub CLI repository search returned zero results for each
 query:
 
 ```text
@@ -47,19 +47,19 @@ sintel-codex-pet
 "Morevna" "Codex pet"
 ```
 
-The exact candidate was also checked through the public repository namespace
-before publication. Repository search cannot prove that no private or
+The exact `KanadeK/scales-codex-pet` namespace was also unclaimed before
+publication. Repository search cannot prove that no private or
 unindexed experiment exists, so the claim is deliberately scoped to public,
 searchable evidence.
 
 ## Community gallery gap
 
 [`legeling/awesome-codex-pet`](https://github.com/legeling/awesome-codex-pet)
-had **490 stars**, **67 forks**, and **171 indexed pets** in the snapshot.
+had **636 stars**, **85 forks**, and **192 indexed pets** in the snapshot.
 Its `pets.json` contained:
 
-- 138 v1 pets and only 33 v2 pets;
-- 44 anime-character pets;
+- 138 v1 pets and 54 v2 pets;
+- 50 anime-character pets;
 - only 3 entries whose license string began with plain `CC BY`;
 - zero case-insensitive matches for `Sintel` or `Scales`.
 

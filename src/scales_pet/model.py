@@ -9,6 +9,7 @@ CELL_WIDTH = 192
 CELL_HEIGHT = 208
 COLUMNS = 8
 MAX_FILE_BYTES = 20 * 1024 * 1024
+NEUTRAL_LOOK_CELL = (6, 0)
 
 
 @dataclass(frozen=True, slots=True)
@@ -132,15 +133,24 @@ def cell_box(column: int, row: int) -> tuple[int, int, int, int]:
 
 
 def required_cells(target: TargetSpec) -> set[tuple[int, int]]:
-    return {
+    cells = {
         (column, row.row)
         for row in target.row_specs
         for column in range(row.frames)
     }
+    if target.name == "desktop":
+        cells.add(NEUTRAL_LOOK_CELL)
+    return cells
+
+
+def optional_cells(target: TargetSpec) -> set[tuple[int, int]]:
+    if target.name == "web":
+        return {NEUTRAL_LOOK_CELL}
+    return set()
 
 
 def unused_cells(target: TargetSpec) -> set[tuple[int, int]]:
-    used = required_cells(target)
+    used = required_cells(target) | optional_cells(target)
     return {
         (column, row)
         for row in range(target.rows)

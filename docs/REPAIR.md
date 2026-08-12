@@ -19,7 +19,9 @@ and rerun strict validation. Do not paint only the reported final cell.
 ### `unused-cell-populated`
 
 Clear the full unused cell to transparent black. Re-encode losslessly and
-validate both the authoritative atlas and web derivative.
+validate both the authoritative atlas and web derivative. Row 0, column 6 is
+not unused: it is the required desktop v2 neutral-look fallback and a compatible
+optional cell in the exact-crop web derivative.
 
 ### `cell-edge-touch`
 
@@ -33,8 +35,10 @@ dark fringes and nondeterministic transparent bytes.
 
 ### `chroma-residue`
 
-Return to the completed source row and run the approved edge-local despill once.
-Inspect contact sheets again. Repeated global despill damages valid colors.
+Visible pixels with alpha above 16 that remain near the generation key fail.
+Return to the unprocessed completed atlas and run the approved edge-local
+despill once, then inspect contact sheets again. Never rerun despill on the same
+pixels; repeated global cleanup damages valid colors.
 
 ### `target-dimensions`
 
