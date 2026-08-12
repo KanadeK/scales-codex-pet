@@ -50,7 +50,7 @@ jobs:
       - run: python -m coverage report
       - run: python scripts/release_check.py --json
       - run: python -m build
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: python-packages
           path: dist/
