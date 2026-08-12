@@ -85,6 +85,17 @@ Do not update a SHA-256 merely to silence the gate. Compare the file with its
 canonical description page, license, author, dimensions, and expected content.
 Restore the pinned byte or document and review an intentional upstream change.
 
+For a downloaded release, run the verifier against the extracted manifest:
+
+```bash
+scales-pet verify-provenance \
+  scales-codex-pet-v0.1.0/artwork/references/sources.json --json
+```
+
+If it reports `source-missing`, the referenced bytes must be restored to their
+exact manifest paths and the archive rebuilt. Do not remove the manifest or
+rewrite its hashes to make an incomplete ZIP pass.
+
 ## Reproducibility failures
 
 Build twice in separate directories. Compare file lists, order, permissions,

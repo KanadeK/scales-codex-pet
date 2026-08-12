@@ -37,7 +37,7 @@ Do not publish assets from a different source state.
 3. Confirm Pages serves the same saved source state.
 4. Download all Release assets into a fresh directory.
 5. Verify checksums and internal ZIP timestamps.
-6. Validate both extracted atlases.
+6. Validate both extracted atlases and all extracted provenance bytes.
 7. Inspect GitHub's contributors endpoint and commit history.
 
 Only after these checks pass is the release complete.

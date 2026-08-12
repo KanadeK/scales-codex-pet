@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -89,7 +90,28 @@ def populate_release_text_files(root: Path) -> None:
         path.write_text(f"fixture for {relative}\n", encoding="utf-8")
     provenance = root / "artwork/references/sources.json"
     provenance.parent.mkdir(parents=True, exist_ok=True)
-    provenance.write_text('{"schema_version": 1}\n', encoding="utf-8")
+    reference = provenance.parent / "source-reference.bin"
+    reference_bytes = b"pinned provenance fixture\n"
+    reference.write_bytes(reference_bytes)
+    provenance.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "attribution": "Test fixture only.",
+                "sources": [
+                    {
+                        "path": "artwork/references/source-reference.bin",
+                        "sha256": hashlib.sha256(reference_bytes).hexdigest(),
+                        "page_url": "https://example.com/source-reference",
+                        "license": "CC-BY-3.0",
+                    }
+                ],
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     scenario = root / "examples/scales-quest.json"
     scenario.parent.mkdir(parents=True, exist_ok=True)
     scenario.write_text('{"schema_version": 1, "events": []}\n', encoding="utf-8")

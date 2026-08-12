@@ -8,7 +8,7 @@ import tempfile
 import zipfile
 from collections.abc import Iterable
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 from PIL import Image
@@ -110,12 +110,63 @@ def _zip_info(name: str, *, executable: bool) -> zipfile.ZipInfo:
     return info
 
 
+def _provenance_release_files(repo_root: Path) -> list[ReleaseFile]:
+    manifest_relative = "artwork/references/sources.json"
+    manifest_path = repo_root / manifest_relative
+    if not manifest_path.is_file():
+        raise FileNotFoundError(f"provenance manifest is missing: {manifest_path}")
+
+    payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    sources = payload.get("sources")
+    if payload.get("schema_version") != 1 or not isinstance(sources, list) or not sources:
+        raise ValueError("provenance manifest must use schema_version 1 and list sources")
+
+    files = [ReleaseFile(manifest_path, manifest_relative)]
+    seen = {manifest_relative}
+    root = repo_root.resolve()
+    for index, entry in enumerate(sources):
+        if not isinstance(entry, dict):
+            raise ValueError(f"provenance source entry {index} must be an object")
+        relative = entry.get("path")
+        expected_sha256 = entry.get("sha256")
+        if not isinstance(relative, str) or not relative:
+            raise ValueError(f"provenance source entry {index} is missing path")
+        if not isinstance(expected_sha256, str) or not re.fullmatch(
+            r"[0-9a-fA-F]{64}", expected_sha256
+        ):
+            raise ValueError(f"provenance source entry {index} has an invalid SHA-256")
+
+        archive_relative = PurePosixPath(relative.replace("\\", "/"))
+        if (
+            archive_relative.is_absolute()
+            or ".." in archive_relative.parts
+            or any(":" in part for part in archive_relative.parts)
+        ):
+            raise ValueError(f"provenance source entry {index} escapes the repository")
+        archive_path = archive_relative.as_posix()
+        if archive_path in seen:
+            raise ValueError(f"duplicate release path in provenance manifest: {archive_path}")
+
+        source = (root / Path(*archive_relative.parts)).resolve()
+        if root not in source.parents:
+            raise ValueError(f"provenance source entry {index} escapes the repository")
+        if not source.is_file():
+            raise FileNotFoundError(f"provenance source is missing: {source}")
+        actual_sha256 = sha256_file(source)
+        if actual_sha256 != expected_sha256.lower():
+            raise ValueError(
+                f"provenance source hash does not match the manifest: {archive_path}"
+            )
+        files.append(ReleaseFile(source, archive_path))
+        seen.add(archive_path)
+    return files
+
+
 def _default_release_files(repo_root: Path) -> list[ReleaseFile]:
     entries: list[tuple[str, bool]] = [
         ("pet/pet.json", False),
         ("pet/spritesheet.webp", False),
         ("web-pet/scales-web-upload.webp", False),
-        ("artwork/references/sources.json", False),
         ("examples/scales-quest.json", False),
         ("pyproject.toml", False),
         ("src/scales_pet/__init__.py", False),
@@ -145,6 +196,13 @@ def _default_release_files(repo_root: Path) -> list[ReleaseFile]:
     missing = [str(item.source) for item in files if not item.source.is_file()]
     if missing:
         raise FileNotFoundError(f"release inputs are missing: {missing}")
+    files.extend(_provenance_release_files(repo_root))
+    archive_paths = [item.archive_path for item in files]
+    if len(archive_paths) != len(set(archive_paths)):
+        duplicates = sorted(
+            path for path in set(archive_paths) if archive_paths.count(path) > 1
+        )
+        raise ValueError(f"duplicate paths in release inputs: {duplicates}")
     return files
 
 

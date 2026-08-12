@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 import re
+import stat
 import subprocess
 import sys
 import tempfile
@@ -178,6 +179,29 @@ def deterministic_package_report(root: Path, temporary_root: Path) -> dict[str, 
         ]
         timestamps = sorted({item.date_time for item in archive.infolist()})
         names = archive.namelist()
+        symlinks = [
+            item.filename
+            for item in archive.infolist()
+            if ((item.external_attr >> 16) & 0o170000) == stat.S_IFLNK
+        ]
+        if unsafe or symlinks:
+            raise ValueError(
+                f"release archive has unsafe paths or symlinks: {unsafe + symlinks}"
+            )
+        extracted = temporary_root / "extracted-package"
+        archive.extractall(extracted)
+    package_root = extracted / "scales-codex-pet-v0.1.0"
+    packaged_desktop = validate_source(
+        package_root / "pet", target_name="desktop", strict=True
+    ).to_dict()
+    packaged_web = validate_source(
+        package_root / "web-pet/scales-web-upload.webp",
+        target_name="web",
+        strict=True,
+    ).to_dict()
+    packaged_provenance = verify_provenance(
+        package_root / "artwork/references/sources.json"
+    )
     hashes = [sha256_file(path) for path in outputs]
     manifest_hashes = [sha256_file(path) for path in manifests]
     return {
@@ -186,12 +210,20 @@ def deterministic_package_report(root: Path, temporary_root: Path) -> dict[str, 
             and len(set(manifest_hashes)) == 1
             and timestamps == [FIXED_ZIP_TIME]
             and not unsafe
+            and not symlinks
+            and packaged_desktop["ok"]
+            and packaged_web["ok"]
+            and packaged_provenance["ok"]
         ),
         "archive_sha256": hashes,
         "manifest_sha256": manifest_hashes,
         "timestamps": timestamps,
         "unsafe_paths": unsafe,
+        "symlink_paths": symlinks,
         "entries": len(names),
+        "packaged_desktop": packaged_desktop,
+        "packaged_web": packaged_web,
+        "packaged_provenance": packaged_provenance,
     }
 
 

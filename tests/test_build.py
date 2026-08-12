@@ -11,6 +11,7 @@ from scales_pet.build import (
     sha256_file,
     web_pixels_match_desktop,
 )
+from scales_pet.provenance import verify_provenance
 from scales_pet.validation import validate_source
 
 from .helpers import make_pet, populate_release_text_files
@@ -55,12 +56,39 @@ class BuildTests(unittest.TestCase):
             with zipfile.ZipFile(first) as archive:
                 names = archive.namelist()
                 timestamps = {item.date_time for item in archive.infolist()}
+                archive.extractall(Path(directory) / "extracted")
+            packaged_provenance = verify_provenance(
+                Path(directory)
+                / "extracted/scales-codex-pet-v0.1.0/artwork/references/sources.json"
+            )
 
         self.assertIn(
             "scales-codex-pet-v0.1.0/release-manifest.json",
             names,
         )
+        self.assertIn(
+            "scales-codex-pet-v0.1.0/artwork/references/source-reference.bin",
+            names,
+        )
         self.assertEqual(timestamps, {(2020, 1, 1, 0, 0, 0)})
+        self.assertTrue(packaged_provenance["ok"], packaged_provenance)
+
+    def test_release_rejects_missing_provenance_source(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "repo"
+            make_pet(root / "pet")
+            compile_web_atlas(root / "pet", root / "web-pet/scales-web-upload.webp")
+            populate_release_text_files(root)
+            (root / "artwork/references/source-reference.bin").unlink()
+
+            with self.assertRaisesRegex(FileNotFoundError, "provenance source is missing"):
+                build_release(
+                    root,
+                    version="0.1.0",
+                    output=Path(directory) / "release.zip",
+                    manifest_output=Path(directory) / "manifest.json",
+                    checksums_output=Path(directory) / "checksums.txt",
+                )
 
     def test_web_compiler_refuses_to_overwrite_desktop_source(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

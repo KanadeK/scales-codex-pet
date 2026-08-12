@@ -32,6 +32,8 @@ Expected outcomes:
 - scenario replay produces more than zero real frames;
 - two deliberately separate package builds have the same SHA-256;
 - all ZIP entries use `2020-01-01 00:00:00`;
+- the extracted ZIP passes both strict atlas validators and reports
+  `packaged_provenance.ok: true` for all four pinned reference bytes;
 - coverage is at least 85 percent;
 - wheel and source distribution exist under `dist/`.
 
@@ -68,9 +70,10 @@ gh api repos/KanadeK/scales-codex-pet/contributors
 ```
 
 Then download the published archive and checksum file into a new directory,
-verify SHA-256, inspect ZIP timestamps, and run both strict atlas validators
-against the extracted release. The Pages URL must load the real atlas and the
-scenario button must complete without a preview error.
+verify SHA-256, inspect ZIP timestamps, run both strict atlas validators, and
+run `scales-pet verify-provenance` against the extracted release manifest. The
+Pages URL must load the real atlas and the scenario button must complete without
+a preview error.
 
 ## Visual acceptance
 
